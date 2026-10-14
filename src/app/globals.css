@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-indigo: #4A569D;
+  --color-brand-indigo-dark: #272E54;
+  --color-brand-indigo-light: #6A76BF;
+  --color-brand-lavender: #8E97CB;
+  --color-brand-lavender-light: #CBD3F5;
+  --color-brand-lavender-subtle: #1A213D;
+  --color-brand-amber: #E49F43;
+  --color-brand-amber-dark: #C88329;
+  --color-brand-amber-light: #FCEFD9;
+  --color-brand-charcoal: #F8FAFC;
+  --color-brand-charcoal-dark: #0A0D17;
+  --color-brand-charcoal-muted: #94A3B8;
+  
+  /* Modern Dark Luxury Architectural Theme */
+  --color-dark-bg: #090C15;
+  --color-dark-surface: #0F1424;
+  --color-dark-surface-elevated: #151C33;
+  --color-dark-border: rgba(255, 255, 255, 0.08);
+  --color-dark-border-highlight: rgba(142, 151, 203, 0.25);
+  
+  --font-sans: var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+:root {
+  --background: #090C15;
+  --foreground: #F8FAFC;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #090C15;
+  color: #F8FAFC;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Modern Blueprint & Coordinate Grid Backgrounds */
+.bg-blueprint-grid {
+  background-image: 
+    linear-gradient(to right, rgba(142, 151, 203, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(142, 151, 203, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.bg-blueprint-grid-dense {
+  background-image: 
+    linear-gradient(to right, rgba(142, 151, 203, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(142, 151, 203, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Modern Glass & Surface Cards */
+.modern-glass-card {
+  background: rgba(15, 20, 36, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modern-glass-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modern-glass-card-hover:hover {
+  background: rgba(21, 28, 51, 0.85);
+  border-color: rgba(228, 159, 67, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(228, 159, 67, 0.1);
+}
+
+/* Custom focus styles for WCAG 2.2 AA */
+:focus-visible {
+  outline: 2px solid #E49F43;
+  outline-offset: 3px;
+}
+
+/* Stepped geometry helper for F-symbol motifs */
+.stepped-f-notch {
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 75%,
+    75% 75%,
+    75% 100%,
+    0% 100%
+  );
+}
+
+/* Ambient glow accents */
+.ambient-glow-amber {
+  background: radial-gradient(circle, rgba(228, 159, 67, 0.12) 0%, transparent 70%);
+}
+
+.ambient-glow-indigo {
+  background: radial-gradient(circle, rgba(74, 86, 157, 0.18) 0%, transparent 70%);
+}
