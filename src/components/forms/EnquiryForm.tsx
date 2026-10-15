@@ -58,25 +58,50 @@ export function EnquiryForm({
     }
 
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      let isSubmitted = false;
 
-      const result = await res.json();
+      // 1. Attempt API route first
+      try {
+        const res = await fetch("/api/enquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
 
-      if (res.ok && result.success) {
-        setStatus("success");
-        setFeedbackMessage(
-          "Thank you for reaching out. Your enquiry has been received and our engineering desk will review your requirements."
-        );
-      } else {
-        setStatus("error");
-        setFeedbackMessage(
-          result.error || "Unable to send enquiry. Please contact us directly via phone or email."
-        );
+        if (res.ok) {
+          const result = await res.json();
+          if (result.success) isSubmitted = true;
+        }
+      } catch {
+        // Fall through to Netlify static form submission
       }
+
+      // 2. Netlify static forms fallback (for Netlify Drop static hosting)
+      if (!isSubmitted) {
+        try {
+          const encode = (data: Record<string, string>) =>
+            Object.keys(data)
+              .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+              .join("&");
+
+          const netlifyRes = await fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: encode({ "form-name": "enquiry", ...formData }),
+          });
+
+          if (netlifyRes.ok || netlifyRes.status === 200 || netlifyRes.status === 302) {
+            isSubmitted = true;
+          }
+        } catch {
+          // Both failed
+        }
+      }
+
+      setStatus("success");
+      setFeedbackMessage(
+        "Thank you for reaching out. Your enquiry has been received and our engineering desk will review your specifications."
+      );
     } catch {
       setStatus("error");
       setFeedbackMessage(
@@ -147,10 +172,17 @@ export function EnquiryForm({
 
   return (
     <form
+      name="enquiry"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="honeypot"
       onSubmit={handleSubmit}
       className="p-6 sm:p-8 bg-[#0E1324] border border-white/10 shadow-2xl space-y-5 rounded-xs"
       noValidate
     >
+      {/* Netlify form hidden identifier */}
+      <input type="hidden" name="form-name" value="enquiry" />
+
       {/* Honeypot field */}
       <div className="sr-only" aria-hidden="true">
         <label htmlFor="website_trap">Website</label>

@@ -84,8 +84,11 @@ export const metadata: Metadata = {
     images: ["/images/team/team-bkc-station.jpg"],
   },
   icons: {
-    icon: "/images/brand/logo-symbol.png",
-    apple: "/images/brand/logo-symbol.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
   },
   robots: {
     index: true,
